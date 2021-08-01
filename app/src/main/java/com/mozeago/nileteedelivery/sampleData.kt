@@ -5,7 +5,7 @@ object SampleData {
         OrderList(
             "imagePath",
             "Tawakal Hotel",
-            "St. Peters Road Fort Jesus Road",
+            "St. Peters Road Fort Jesus Road ",
             true,
             500
         ),

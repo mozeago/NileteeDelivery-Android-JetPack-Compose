@@ -1,12 +1,12 @@
 package com.mozeago.nileteedelivery
 
+import android.graphics.Color
 import android.os.Bundle
-import android.text.style.BackgroundColorSpan
-import android.widget.Space
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,10 +16,12 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mozeago.nileteedelivery.ui.theme.NileteeDeliveryTheme
@@ -31,15 +33,7 @@ class MainActivity : ComponentActivity() {
             NileteeDeliveryTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    OrderLIst(
-                        order = OrderList(
-                            "",
-                            "AL-Tamuu Hotel",
-                            "Lenana Road Nairobi",
-                            false,
-                            650,
-                        )
-                    )
+                    DefaultPreview()
                 }
             }
         }
@@ -63,13 +57,16 @@ fun Greeting(name: String) {
 @Composable
 fun OrderLIst(order: OrderList) {
     NileteeDeliveryTheme {
+        val isExpanded by remember {
+            mutableStateOf(false)
+        }
 
         Card(
             modifier = Modifier
                 .padding(4.dp)
 
         ) {
-            Row {
+            Row(modifier = Modifier.clickable { isExpanded != isExpanded }) {
                 Image(
                     painter = painterResource(R.drawable.pizza_32),
                     contentDescription = "Order description",
@@ -88,7 +85,8 @@ fun OrderLIst(order: OrderList) {
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
                         text = order.location,
-                        style = MaterialTheme.typography.body2
+                        maxLines = if (isExpanded) Int.MAX_VALUE else 1,
+                        style = MaterialTheme.typography.body2,
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
@@ -133,6 +131,12 @@ fun Order(orders: List<OrderList>) {
     }
 }
 
+//@Composable
+//fun TopAppBar(
+//    title: @Composable() () -> Unit,
+//    color: Color = MaterialTheme.colors.primary,
+//    navigationIcon: @Composable() (() -> Unit)?null
+//)
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
